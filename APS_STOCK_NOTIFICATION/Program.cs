@@ -36,7 +36,7 @@ namespace APS_STOCK_NOTIFICATION
                     {
                         string message = "";
                         message = "\nWCNO: " + _subData.wcno + "\n";
-                        message += "PARTTYPE: " + _mainData.part_type + "\n";
+                        message += "PART TYPE: " + _mainData.part_type + "\n";
                         message += "PARTNO: " + _subData.partno + " " + _subData.cm + "\n";               
                         message += "STOCK: " + _subData.bal_stock + "\n";
                         await SendLineNotify(message);
@@ -50,12 +50,7 @@ namespace APS_STOCK_NOTIFICATION
                     }
                 }
 
-
-
-
-
                 string directoryPath = @"D:\www\APS_STOCK_WARNING\image";
-
                 SKImage image = ConvertDataTableToImage(dt);
 
                 using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
@@ -70,7 +65,7 @@ namespace APS_STOCK_NOTIFICATION
                 if (imageFiles.Length > 0)
                 {
                     string imagePath = imageFiles[0];
-                    await SendLineNotify("", imagePath);
+                    await SendLineNotify("APS Notify", imagePath);
                 }
                 else
                 {

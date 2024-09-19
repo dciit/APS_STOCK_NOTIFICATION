@@ -74,12 +74,12 @@ namespace APS_STOCK_NOTIFICATION.Controller
                    GROUP BY ts.YMD,ts.SHIFT,ts.WCNO,ts.PARTNO,ts.CM,stock.PartDesc,stock.BAL,models,part_desc,logs.NOTE
                    order by BAL_STOCK";
 
-                //sql_select_overall_Labels.Parameters.Add(new SqlParameter("@ym", DateTime.Now.AddHours(-8).ToString("yyyyMM")));
-                //sql_select_overall_Labels.Parameters.Add(new SqlParameter("@ymd", DateTime.Now.AddHours(-8).ToString("yyyyMMdd")));
-                //sql_select_overall_Labels.Parameters.Add(new SqlParameter("@shift", DateTime.Now.AddHours(-8).Hour >= 12 ? "N" : "D"));
-                sql_select_overall_Labels.Parameters.Add(new SqlParameter("@ym", "202409"));
-                sql_select_overall_Labels.Parameters.Add(new SqlParameter("@ymd", "20240917"));
-                sql_select_overall_Labels.Parameters.Add(new SqlParameter("@shift", "N"));
+                sql_select_overall_Labels.Parameters.Add(new SqlParameter("@ym", DateTime.Now.AddHours(-8).ToString("yyyyMM")));
+                sql_select_overall_Labels.Parameters.Add(new SqlParameter("@ymd", DateTime.Now.AddHours(-8).ToString("yyyyMMdd")));
+                sql_select_overall_Labels.Parameters.Add(new SqlParameter("@shift", DateTime.Now.AddHours(-8).Hour >= 12 ? "N" : "D"));
+                //sql_select_overall_Labels.Parameters.Add(new SqlParameter("@ym", "202409"));
+                //sql_select_overall_Labels.Parameters.Add(new SqlParameter("@ymd", "20240917"));
+                //sql_select_overall_Labels.Parameters.Add(new SqlParameter("@shift", "N"));
                 sql_select_overall_Labels.Parameters.Add(new SqlParameter("@parttype", item.Key));
                 DataTable dtOverAll = oCOnnSCM.Query(sql_select_overall_Labels);
 
