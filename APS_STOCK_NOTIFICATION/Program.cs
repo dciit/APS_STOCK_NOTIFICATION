@@ -34,12 +34,12 @@ namespace APS_STOCK_NOTIFICATION
                 {
                     foreach (DataIN_OUT_Report_BY_TYPE _subData in _mainData.reportAll)
                     {
-                        string message = "";
-                        message = "\nWCNO: " + _subData.wcno + "\n";
-                        message += "PART TYPE: " + _mainData.part_type + "\n";
-                        message += "PARTNO: " + _subData.partno + " " + _subData.cm + "\n";               
-                        message += "STOCK: " + _subData.bal_stock + "\n";
-                        await SendLineNotify(message);
+                        //string message = "";
+                        //message = "\nWCNO: " + _subData.wcno + "\n";
+                        //message += "PART TYPE: " + _mainData.part_type + "\n";
+                        //message += "PARTNO: " + _subData.partno + " " + _subData.cm + "\n";               
+                        //message += "STOCK: " + _subData.bal_stock + "\n";
+                        //await SendLineNotify(message);
 
 
 
@@ -80,7 +80,7 @@ namespace APS_STOCK_NOTIFICATION
         }
         public static SKImage ConvertDataTableToImage(DataTable table)
         {
-            int cellWidth = 300;  // ¤ÇÒÁ¡ÇéÒ§¢Í§áµèÅÐà«ÅÅì
+            int cellWidth = 340;  // ¤ÇÒÁ¡ÇéÒ§¢Í§áµèÅÐà«ÅÅì
             int cellHeight = 40;  // ¤ÇÒÁÊÙ§¢Í§áµèÅÐà«ÅÅì
             int imageWidth = table.Columns.Count * cellWidth;
             int imageHeight = (table.Rows.Count + 1) * cellHeight; // ¨Ó¹Ç¹á¶Ç +1 ÊÓËÃÑºËÑÇ¢éÍ
@@ -97,7 +97,7 @@ namespace APS_STOCK_NOTIFICATION
                 {
                     Color = SKColors.Black,
                     IsAntialias = true,
-                    TextSize = 24,
+                    TextSize = 22,
                     Style = SKPaintStyle.Fill
                 };
 
