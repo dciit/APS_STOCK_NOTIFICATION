@@ -15,7 +15,7 @@ namespace APS_STOCK_NOTIFICATION
 
         private static readonly string lineNotifyToken = "9VWUsTW1DwYrwYLCGafYFo1848adYWaIufNmU4K2fFP";
         static ReportAPSController SrvReportAPS = new ReportAPSController();
-        
+
         static async Task Main(string[] args)
         {
             List<DataIN_OUT_Report_ALL> data_report = SrvReportAPS.getAPSReport();
@@ -72,6 +72,10 @@ namespace APS_STOCK_NOTIFICATION
                     Console.WriteLine("not pass");
                 }
 
+            }
+            else
+            {
+                Console.WriteLine("no data ");
             }
 
 
@@ -182,7 +186,8 @@ namespace APS_STOCK_NOTIFICATION
                     {
                         form.Add(new StringContent(message), "message");
 
-                        if (imagePath != "") {
+                        if (imagePath != "")
+                        {
 
                             byte[] imageData = File.ReadAllBytes(imagePath);
                             var imageContent = new ByteArrayContent(imageData);
@@ -191,7 +196,7 @@ namespace APS_STOCK_NOTIFICATION
                             form.Add(imageContent, "imageFile", Path.GetFileName(imagePath));
                         }
 
-                       var response = await client.PostAsync("https://notify-api.line.me/api/notify", form);
+                        var response = await client.PostAsync("https://notify-api.line.me/api/notify", form);
 
                         if (response.IsSuccessStatusCode)
                         {
