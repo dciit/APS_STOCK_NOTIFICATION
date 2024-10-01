@@ -113,7 +113,7 @@ namespace APS_STOCK_NOTIFICATION
                 if (imageFiles.Length > 0)
                 {
                     string imagePath = imageFiles[0];
-                    await SendLineNotify("ยอด STOCK ติดลบ SUB LINE", imagePath);
+                    await SendLineNotify("APS Notify", imagePath);
                 }
                 else
                 {
