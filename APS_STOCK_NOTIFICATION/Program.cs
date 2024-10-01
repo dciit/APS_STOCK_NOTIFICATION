@@ -77,10 +77,6 @@ namespace APS_STOCK_NOTIFICATION
             {
                 Console.WriteLine("no data ");
             }
-
-
-
-
         }
         public static SKImage ConvertDataTableToImage(DataTable table)
         {
