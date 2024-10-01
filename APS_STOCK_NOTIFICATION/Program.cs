@@ -2,11 +2,7 @@
 using APS_STOCK_NOTIFICATION.Model;
 using SkiaSharp;
 using System.Data;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace APS_STOCK_NOTIFICATION
 {
@@ -18,19 +14,20 @@ namespace APS_STOCK_NOTIFICATION
 
         static async Task Main(string[] args)
         {
-            List<DataIN_OUT_Report_ALL> data_report = SrvReportAPS.getAPSReport();
+            #region main
+            List<DataIN_OUT_Report_ALL> data_report_main = SrvReportAPS.getAPSReport_main();
 
 
-            DataTable dt = new DataTable();
-            dt.Columns.Add("WCNO", typeof(string));
-            dt.Columns.Add("PART TYPE", typeof(string));
-            dt.Columns.Add("PARTNO", typeof(string));
-            dt.Columns.Add("STOCK", typeof(int));
+            DataTable dtReport = new DataTable();
+            dtReport.Columns.Add("WCNO", typeof(string));
+            dtReport.Columns.Add("PART TYPE", typeof(string));
+            dtReport.Columns.Add("PARTNO", typeof(string));
+            dtReport.Columns.Add("STOCK", typeof(int));
 
 
-            if (data_report.Count > 0)
+            if (data_report_main.Count > 0)
             {
-                foreach (DataIN_OUT_Report_ALL _mainData in data_report)
+                foreach (DataIN_OUT_Report_ALL _mainData in data_report_main)
                 {
                     foreach (DataIN_OUT_Report_BY_TYPE _subData in _mainData.reportAll)
                     {
@@ -43,7 +40,58 @@ namespace APS_STOCK_NOTIFICATION
 
 
 
-                        dt.Rows.Add(_subData.wcno, _mainData.part_type, _subData.partno + " " + _subData.cm, _subData.bal_stock);
+                        dtReport.Rows.Add("MAIN", _mainData.part_type, _subData.partno + " " + _subData.cm, _subData.bal_stock);
+
+
+
+                    }
+                }
+
+                //string directoryPath = @"D:\www\APS_STOCK_WARNING\image";
+                //SKImage image = ConvertDataTableToImage(dtReport);
+
+                //using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
+                //using (var stream = File.OpenWrite("D:\\www\\APS_STOCK_WARNING\\image\\Stock_warining.jpg"))
+                //{
+                //    data.SaveTo(stream);
+
+                //}
+
+
+                //string[] imageFiles = Directory.GetFiles(directoryPath, "*.jpg");
+                //if (imageFiles.Length > 0)
+                //{
+                //    string imagePath = imageFiles[0];
+                //    await SendLineNotify("ยอด STOCK ติดลบ MAIN LINE (904)", imagePath);
+                //}
+                //else
+                //{
+                //    Console.WriteLine("not pass");
+                //}
+
+            }
+            else
+            {
+                Console.WriteLine("no data main");
+            }
+
+            #endregion
+
+
+            #region subline
+            List<DataIN_OUT_Report_ALL> data_report_subline = SrvReportAPS.getAPSReport_subline();
+
+
+
+            if (data_report_subline.Count > 0)
+            {
+                foreach (DataIN_OUT_Report_ALL _mainData in data_report_subline)
+                {
+                    foreach (DataIN_OUT_Report_BY_TYPE _subData in _mainData.reportAll)
+                    {
+
+
+                        dtReport.Rows.Add(_subData.wcno, _mainData.part_type, _subData.partno + " " + _subData.cm, _subData.bal_stock);
 
 
 
@@ -51,7 +99,7 @@ namespace APS_STOCK_NOTIFICATION
                 }
 
                 string directoryPath = @"D:\www\APS_STOCK_WARNING\image";
-                SKImage image = ConvertDataTableToImage(dt);
+                SKImage image = ConvertDataTableToImage(dtReport);
 
                 using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
                 using (var stream = File.OpenWrite("D:\\www\\APS_STOCK_WARNING\\image\\Stock_warining.jpg"))
@@ -65,7 +113,7 @@ namespace APS_STOCK_NOTIFICATION
                 if (imageFiles.Length > 0)
                 {
                     string imagePath = imageFiles[0];
-                    await SendLineNotify("APS Notify", imagePath);
+                    await SendLineNotify("ยอด STOCK ติดลบ SUB LINE", imagePath);
                 }
                 else
                 {
@@ -75,8 +123,9 @@ namespace APS_STOCK_NOTIFICATION
             }
             else
             {
-                Console.WriteLine("no data ");
+                Console.WriteLine("no data sub line");
             }
+            #endregion
         }
         public static SKImage ConvertDataTableToImage(DataTable table)
         {
