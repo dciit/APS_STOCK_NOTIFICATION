@@ -59,6 +59,7 @@ namespace APS_STOCK_NOTIFICATION
                 {
                     string imagePath = imageFiles[0];
                     await SendLineNotify("APS Notify", imagePath);
+                  
                 }
                 else
                 {
@@ -70,7 +71,8 @@ namespace APS_STOCK_NOTIFICATION
             {
                 Console.WriteLine("no data");
             }
-        
+            Console.ReadKey();
+
         }
         public static SKImage ConvertDataTableToImage(DataTable table)
         {
@@ -195,6 +197,7 @@ namespace APS_STOCK_NOTIFICATION
                         else
                         {
                             Console.WriteLine($"fail: {response.StatusCode}");
+                            
                         }
                     }
                 }
