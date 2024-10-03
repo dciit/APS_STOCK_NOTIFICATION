@@ -15,7 +15,7 @@ namespace APS_STOCK_NOTIFICATION
         static async Task Main(string[] args)
         {
             #region main
-            List<DataIN_OUT_Report_ALL> data_report_main = SrvReportAPS.getAPSReport_main();
+            List<DataIN_OUT_Report_BY_TYPE> data_report = SrvReportAPS.getAPSReport();
 
 
             DataTable dtReport = new DataTable();
@@ -25,77 +25,22 @@ namespace APS_STOCK_NOTIFICATION
             dtReport.Columns.Add("STOCK", typeof(int));
 
 
-            if (data_report_main.Count > 0)
-            {
-                foreach (DataIN_OUT_Report_ALL _mainData in data_report_main)
-                {
-                    foreach (DataIN_OUT_Report_BY_TYPE _subData in _mainData.reportAll)
-                    {
-                        //string message = "";
-                        //message = "\nWCNO: " + _subData.wcno + "\n";
-                        //message += "PART TYPE: " + _mainData.part_type + "\n";
-                        //message += "PARTNO: " + _subData.partno + " " + _subData.cm + "\n";               
-                        //message += "STOCK: " + _subData.bal_stock + "\n";
-                        //await SendLineNotify(message);
-
-
-
-                        dtReport.Rows.Add("MAIN", _mainData.part_type, _subData.partno + " " + _subData.cm, _subData.bal_stock);
-
-
-
-                    }
-                }
-
-                //string directoryPath = @"D:\www\APS_STOCK_WARNING\image";
-                //SKImage image = ConvertDataTableToImage(dtReport);
-
-                //using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
-                //using (var stream = File.OpenWrite("D:\\www\\APS_STOCK_WARNING\\image\\Stock_warining.jpg"))
-                //{
-                //    data.SaveTo(stream);
-
-                //}
-
-
-                //string[] imageFiles = Directory.GetFiles(directoryPath, "*.jpg");
-                //if (imageFiles.Length > 0)
-                //{
-                //    string imagePath = imageFiles[0];
-                //    await SendLineNotify("ยอด STOCK ติดลบ MAIN LINE (904)", imagePath);
-                //}
-                //else
-                //{
-                //    Console.WriteLine("not pass");
-                //}
-
-            }
-            else
-            {
-                Console.WriteLine("no data main");
-            }
-
+          
             #endregion
 
 
-            #region subline
-            List<DataIN_OUT_Report_ALL> data_report_subline = SrvReportAPS.getAPSReport_subline();
-
-
-
-            if (data_report_subline.Count > 0)
+            if (data_report.Count > 0)
             {
-                foreach (DataIN_OUT_Report_ALL _mainData in data_report_subline)
+                foreach (DataIN_OUT_Report_BY_TYPE _mainData in data_report)
                 {
-                    foreach (DataIN_OUT_Report_BY_TYPE _subData in _mainData.reportAll)
-                    {
+                    
 
 
-                        dtReport.Rows.Add(_subData.wcno, _mainData.part_type, _subData.partno + " " + _subData.cm, _subData.bal_stock);
+                        dtReport.Rows.Add(_mainData.wcno, _mainData.partDesc ,_mainData.partno, _mainData.bal_stock);
 
 
 
-                    }
+                    
                 }
 
                 string directoryPath = @"D:\www\APS_STOCK_WARNING\image";
@@ -113,7 +58,7 @@ namespace APS_STOCK_NOTIFICATION
                 if (imageFiles.Length > 0)
                 {
                     string imagePath = imageFiles[0];
-                    await SendLineNotify("ยอด STOCK ติดลบ SUB LINE", imagePath);
+                    await SendLineNotify("APS Notify", imagePath);
                 }
                 else
                 {
@@ -123,9 +68,9 @@ namespace APS_STOCK_NOTIFICATION
             }
             else
             {
-                Console.WriteLine("no data sub line");
+                Console.WriteLine("no data");
             }
-            #endregion
+        
         }
         public static SKImage ConvertDataTableToImage(DataTable table)
         {
