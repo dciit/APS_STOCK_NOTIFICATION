@@ -267,7 +267,16 @@ namespace APS_STOCK_NOTIFICATION.Controller
 
                                                 FROM EKB_WIP_PART_STOCK
                                                 INNER JOIN DictMstr dict on dict.REF2 = PARTNO and dict.REF3 = CM and DICT_SYSTEM = 'WIP_STOCK' and (DICT_TYPE like ('PART_SET%') OR DICT_TYPE like ('WC%'))
-                                                where   BAL < 0 and YM = @ym
+                                                where   BAL < 0 and YM = @ym and WCNO IN (SELECT [DESCRIPTION]
+																								FROM [dbSCM].[dbo].[DictMstr]
+																								WHERE DICT_TYPE = 'WC_MASTER' 
+																								GROUP BY DESCRIPTION
+
+																								UNION ALL 
+
+																								SELECT distinct REF1
+																								FROM [dbSCM].[dbo].[DictMstr]
+																								WHERE REF1 = '904') and NOTE != 'SEAL PLATE ASSY'
                                                 GROUP BY WCNO,PARTNO,CM,dict.NOTE,BAL
 
 

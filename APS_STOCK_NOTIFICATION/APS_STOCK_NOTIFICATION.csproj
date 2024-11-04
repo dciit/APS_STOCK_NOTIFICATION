@@ -8,7 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.67" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.0.0-preview1.24240.8" />
+    <PackageReference Include="PuppeteerSharp" Version="20.0.2" />
     <PackageReference Include="SkiaSharp" Version="3.0.0-preview.4.1" />
   </ItemGroup>
 
